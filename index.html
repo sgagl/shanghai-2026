@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Shanghai · Shenzhen · Macao 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root {
+  --bg: #f6f3ee;
+  --surface: #ffffff;
+  --surface-2: #f0ece5;
+  --text: #1f1c18;
+  --muted: #6d665c;
+  --line: #e2dcd2;
+  --accent: #2f5d62;
+  --ok: #2e7d4f;
+  --ok-bg: #e3f2e8;
+  --warn: #9a6400;
+  --warn-bg: #fdf0d5;
+  --bad: #b3261e;
+  --bad-bg: #fbe4e1;
+  --info: #2d5b9a;
+  --info-bg: #e3ecf8;
+  --neutral-bg: #ece8e1;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15130f; --surface: #1f1c18; --surface-2: #29251f; --text: #f1ece4; --muted: #a59d90; --line: #3a352d;
+    --ok: #7fd1a0; --ok-bg: #1d3326; --warn: #f0c062; --warn-bg: #3a2e14; --bad: #ff8a80; --bad-bg: #3d1f1c;
+    --info: #9cc0f0; --info-bg: #1c2a3d; --neutral-bg: #302b24; --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15130f; --surface: #1f1c18; --surface-2: #29251f; --text: #f1ece4; --muted: #a59d90; --line: #3a352d;
+  --ok: #7fd1a0; --ok-bg: #1d3326; --warn: #f0c062; --warn-bg: #3a2e14; --bad: #ff8a80; --bad-bg: #3d1f1c;
+  --info: #9cc0f0; --info-bg: #1c2a3d; --neutral-bg: #302b24; --shadow: none; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+}
+a { color: var(--accent); }
+h1, h2, h3 { line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(24px, 5vw, 34px); letter-spacing: -.02em; }
+h2 { font-size: 19px; letter-spacing: -.01em; }
+h3 { font-size: 15px; }
+button, input, select { font: inherit; color: inherit; }
+.muted { color: var(--muted); }
+.pad { padding: 16px; }
+.small { font-size: 13px; }
+
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 1001; background: var(--bg); }
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 1000; display: flex; align-items: center; gap: 12px;
+  padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-weight: 700; font-size: 18px; text-decoration: none; color: var(--text); }
+.today { color: var(--muted); font-size: 13px; }
+.sync { margin-left: auto; font-size: 12px; color: var(--muted); }
+.icon-btn {
+  min-width: 40px; min-height: 40px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); cursor: pointer;
+}
+
+main {
+  max-width: 1180px; margin: 0 auto; outline: none; padding-block: 16px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.section { margin-top: 28px; }
+.section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.section-head .muted { font-size: 13px; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px;
+}
+.grid { display: grid; gap: 14px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+
+/* trip cards */
+.trip-card { position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block; }
+.trip-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--trip, var(--accent)); }
+.trip-card:hover { border-color: var(--trip, var(--accent)); }
+.trip-card .count { font-size: 34px; font-weight: 700; letter-spacing: -.03em; color: var(--trip, var(--accent)); }
+.trip-card .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.meter { height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--trip, var(--accent)); border-radius: 99px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.stat .label { font-size: 12px; color: var(--muted); }
+.stat .value { font-weight: 600; }
+.next { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+
+/* pills */
+.pill {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 99px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--neutral-bg); color: var(--muted);
+}
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.bad { background: var(--bad-bg); color: var(--bad); }
+.pill.info { background: var(--info-bg); color: var(--info); }
+.pill.trip { background: color-mix(in srgb, var(--trip) 15%, transparent); color: var(--trip); }
+a.pill { text-decoration: none; }
+select.pill { border: 0; cursor: pointer; appearance: none; padding-right: 9px; }
+
+/* deadlines */
+.dl-group + .dl-group { margin-top: 18px; }
+.dl-group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+.dl {
+  display: grid; grid-template-columns: 44px 108px 1fr auto; gap: 10px; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--line);
+}
+.dl:last-child { border-bottom: 0; }
+.dl.done .dl-title { text-decoration: line-through; color: var(--muted); }
+.dl-when { font-variant-numeric: tabular-nums; font-size: 13px; }
+.dl-when b { display: block; font-size: 14px; }
+.dl-when.overdue b { color: var(--bad); }
+.dl-meta { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.check { width: 44px; height: 44px; display: grid; place-items: center; margin: -6px 0; cursor: pointer; }
+.check input { width: 20px; height: 20px; accent-color: var(--trip, var(--accent)); cursor: pointer; }
+input[type="date"], input[type="datetime-local"], input[type="text"], input[type="number"], select.input {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 8px; min-height: 36px; max-width: 100%;
+}
+.dl input[type="date"] { width: 100%; font-size: 13px; }
+@media (max-width: 640px) {
+  .dl { grid-template-columns: 44px 1fr; }
+  .dl-when { grid-column: 2; }
+  .dl-title { grid-column: 2; }
+  .dl-meta { grid-column: 2; justify-content: flex-start; }
+}
+
+/* trip page */
+.trip-hero { border-left: 5px solid var(--trip); padding: 6px 0 6px 16px; margin: 8px 0 4px; }
+.trip-hero .sub { color: var(--muted); margin-top: 4px; }
+.back { font-size: 14px; text-decoration: none; display: inline-block; padding: 8px 0; min-height: 44px; }
+.tabs {
+  position: sticky; top: 61px; z-index: 900; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  margin: 12px -16px 0; padding: 8px 16px; background: var(--bg); border-bottom: 1px solid var(--line);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 8px 14px; min-height: 40px; border-radius: 99px; text-decoration: none; color: var(--muted);
+  white-space: nowrap; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;
+}
+.tab[aria-current="page"] { background: var(--trip); color: #fff; }
+.tab .badge { background: var(--bad); color: #fff; border-radius: 99px; font-size: 11px; padding: 0 6px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 10px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.fact .label { font-size: 12px; color: var(--muted); }
+.fact .value { font-weight: 600; margin-top: 2px; }
+.list { margin: 0; padding: 0; list-style: none; }
+.list li { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.list li:last-child { border-bottom: 0; }
+.toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; min-height: 44px; }
+.toggle input { width: 20px; height: 20px; accent-color: var(--trip); }
+
+/* itinerary */
+.itin { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; align-items: start; }
+.itin .map-wrap { position: sticky; top: 125px; }
+#leafmap { height: min(70vh, 560px); border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); }
+.map-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.btn {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 14px; min-height: 40px;
+  cursor: pointer; font-weight: 600; font-size: 14px;
+}
+.btn.primary { background: var(--trip, var(--accent)); color: #fff; border-color: transparent; }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--muted); padding: 6px 8px; min-height: 32px; }
+.day { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.day.active { background: color-mix(in srgb, var(--trip) 6%, transparent); border-radius: 10px; }
+.day-date { text-align: center; }
+.day-date .dow { font-size: 12px; color: var(--muted); text-transform: uppercase; }
+.day-date .dnum { font-size: 24px; font-weight: 700; line-height: 1; }
+.day-date .mon { font-size: 12px; color: var(--muted); }
+.day-base { font-weight: 700; }
+.ev { display: flex; gap: 8px; font-size: 14px; margin-top: 4px; align-items: baseline; }
+.ev .ico { width: 18px; flex: none; text-align: center; }
+.ev.user { font-weight: 500; }
+.add-row { display: flex; gap: 6px; margin-top: 8px; }
+.add-row input { flex: 1; min-width: 0; }
+.opt-tag { color: var(--ok); font-size: 12px; font-weight: 600; }
+@media (max-width: 860px) {
+  .itin { grid-template-columns: 1fr; }
+  .itin .map-wrap { position: static; }
+  #leafmap { height: 340px; }
+}
+
+/* bookings */
+.bk { display: grid; gap: 6px; }
+.bk-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.bk-title { font-weight: 700; }
+.bk-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.kv { display: grid; grid-template-columns: 96px 1fr; gap: 2px 10px; font-size: 14px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; overflow-wrap: anywhere; }
+.seg { font-size: 13px; font-variant-numeric: tabular-nums; }
+.bk.unselected { opacity: .62; }
+.cat-title { margin: 22px 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+/* budget */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.off td { color: var(--muted); }
+tr.off td.lbl { text-decoration: line-through; }
+tr.grp td { font-weight: 700; background: var(--surface-2); }
+.totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; margin-bottom: 14px; }
+.stepper { display: inline-flex; align-items: center; gap: 6px; }
+.stepper button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; }
+
+/* todos */
+.todo-group summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 44px; font-weight: 700; list-style: none; }
+.todo-group summary::-webkit-details-marker { display: none; }
+.todo { display: flex; align-items: center; gap: 4px; min-height: 44px; }
+.todo label { flex: 1; cursor: pointer; }
+.todo.done label { text-decoration: line-through; color: var(--muted); }
+
+.toast {
+  position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; z-index: 2000; max-width: calc(100% - 32px);
+  font-size: 14px;
+}
+.empty { color: var(--muted); font-style: italic; font-size: 14px; }
+
+/* view-only snapshot */
+.static .add-row, .static [data-action="day-del"] { display: none !important; }
+.static .check input:disabled, .static select:disabled { cursor: default; opacity: 1; }
+
+/* Leaflet essentials (inlined: hosted pages can't load external stylesheets) */
+.leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container,
+.leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
+.leaflet-container { overflow: hidden; -webkit-tap-highlight-color: transparent; font-size: 12px; touch-action: pan-x pan-y; }
+.leaflet-container img.leaflet-tile, .leaflet-container .leaflet-overlay-pane svg { max-width: none !important; max-height: none !important; }
+.leaflet-tile { visibility: hidden; user-select: none; }
+.leaflet-container img.leaflet-tile { mix-blend-mode: plus-lighter; }
+.leaflet-tile-loaded { visibility: inherit; }
+.leaflet-pane { z-index: 400; }
+.leaflet-tile-pane { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-marker-pane { z-index: 600; }
+.leaflet-tooltip-pane { z-index: 650; }
+.leaflet-popup-pane { z-index: 700; }
+.leaflet-zoom-animated { transform-origin: 0 0; }
+.leaflet-zoom-anim .leaflet-zoom-animated { transition: transform .25s cubic-bezier(0, 0, .25, 1); }
+.leaflet-zoom-anim .leaflet-zoom-hide { visibility: hidden; }
+.leaflet-interactive { cursor: pointer; }
+.leaflet-grab { cursor: grab; }
+.leaflet-dragging .leaflet-grab { cursor: grabbing; }
+.leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; }
+.leaflet-top { top: 0; } .leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; } .leaflet-right { right: 0; }
+.leaflet-control { position: relative; z-index: 800; pointer-events: auto; float: left; clear: both; }
+.leaflet-top .leaflet-control { margin-top: 10px; }
+.leaflet-bottom .leaflet-control { margin-bottom: 0; }
+.leaflet-left .leaflet-control { margin-left: 10px; }
+.leaflet-right .leaflet-control { float: right; margin-right: 0; }
+.leaflet-bar { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.leaflet-bar a { display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; text-decoration: none; color: var(--text); font: 700 18px/34px system-ui, sans-serif; }
+.leaflet-bar a + a { border-top: 1px solid var(--line); }
+.leaflet-bar a.leaflet-disabled { color: var(--muted); cursor: default; }
+.leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--muted); padding: 0 6px; font-size: 11px; }
+.leaflet-control-attribution a { color: var(--muted); }
+.leaflet-tooltip {
+  position: absolute; padding: 2px 7px; background: var(--surface); color: var(--text); border: 1px solid var(--line);
+  border-radius: 6px; white-space: nowrap; pointer-events: none; font-size: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+
+@media print {
+  .topbar, .tabs, .add-row, .map-btns, .icon-btn { display: none !important; }
+  body { background: #fff; }
+}
+
+</style>
+</head>
+<body>
+<script>try { const t = localStorage.getItem("trips-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<header class="topbar">
+    <a class="brand" href="#/">Trips</a>
+    <span class="today" id="today"></span>
+    <span class="sync" id="sync" aria-live="polite"></span>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Toggle dark mode">◐</button>
+  </header>
+  <main id="view" tabindex="-1"><p class="muted pad">Loading trips…</p></main>
+  <div class="toast" id="toast" role="status" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>window.TRIPS_META = {"published": "2026-10-25", "mode": "site"}; window.TRIPS_DATA = [{"schema": 1, "id": "china-macao-2026", "name": "Shanghai · Shenzhen · Macao", "subtitle": "China & Macao, December 2026", "status": "booked", "start": "2026-12-04", "end": "2026-12-13", "accent": "#c0392b", "baseCurrency": "EUR", "travelers": [{"name": "Stefano Gagliano"}, {"name": "Ferrante Schinardi (Ferra)"}, {"name": "Choppy"}, {"name": "Greg"}, {"name": "Angelo"}, {"name": "Chicco"}, {"name": "Sandro"}], "travelerCount": 7, "rates": {"date": "2026-10-25", "source": "AllRatesToday", "eurPer": {"CNY": 0.1338, "HKD": 0.1138, "MOP": 0.1105}}, "options": [], "places": [{"id": "MXP", "name": "Milan Malpensa (MXP)", "lat": 45.6306, "lng": 8.7281, "kind": "airport"}, {"id": "CDG", "name": "Paris CDG", "lat": 49.0097, "lng": 2.5479, "kind": "airport"}, {"id": "PVG", "name": "Shanghai Pudong (PVG)", "lat": 31.1443, "lng": 121.8083, "kind": "airport"}, {"id": "sha-hotel", "name": "City Hotel Shanghai", "lat": 31.2217, "lng": 121.459, "kind": "hotel"}, {"id": "SHHQ", "name": "Shanghai Hongqiao station", "lat": 31.1946, "lng": 121.3197, "kind": "station"}, {"id": "SZN", "name": "Shenzhen North station", "lat": 22.6094, "lng": 114.0291, "kind": "station"}, {"id": "szx-hotel", "name": "丽呈東谷酒店 (Futian, Shenzhen)", "lat": 22.5417, "lng": 114.0787, "kind": "hotel"}, {"id": "mfm-hotel", "name": "Macau Hotel S", "lat": 22.196, "lng": 113.543, "kind": "hotel"}, {"id": "MFM", "name": "Macau International (MFM)", "lat": 22.1496, "lng": 113.5917, "kind": "airport"}], "bookings": [{"id": "flt-gotogate", "category": "flight", "title": "China Eastern flights MXP ⇄ Shanghai + Macao", "provider": "Gotogate (with Booking.com)", "status": "booked", "payment": {"status": "unknown", "amount": null, "currency": "EUR", "eur": null}, "start": "2026-12-04", "end": "2026-12-13", "segments": [{"number": "MU1776", "carrier": "Air France (operating)", "from": "MXP", "to": "CDG", "depart": "2026-12-04T15:55", "arrive": "2026-12-04T17:35"}, {"number": "MU570", "carrier": "China Eastern", "from": "CDG", "to": "PVG", "depart": "2026-12-04T20:05", "arrive": "2026-12-05T14:35"}, {"number": "MU2008", "carrier": "China Eastern", "from": "MFM", "to": "PVG", "depart": "2026-12-12T16:45", "arrive": "2026-12-12T19:10"}, {"number": "MU243", "carrier": "China Eastern", "from": "PVG", "to": "MXP", "depart": "2026-12-13T01:20", "arrive": "2026-12-13T07:00"}], "docs": [], "notes": "Tickets only for Stefano and Ferrante; flights of the other five travellers not recorded yet. MU1776 arrival moved from 17:25 to 17:35. Price not shown in the email."}, {"id": "stay-sha", "category": "stay", "title": "City Hotel Shanghai", "provider": "Booking.com", "status": "booked", "payment": {"status": "due", "amount": 3801.6, "currency": "CNY", "eur": 508.63}, "start": "2026-12-05", "end": "2026-12-07", "checkIn": "14:00–23:30", "checkOut": "12:00", "address": "No.5-7 Shaanxi Rd (S), Huangpu, Shanghai 200020", "phone": "+86 21 6255 1133", "placeId": "sha-hotel", "docs": ["Documenti_originali/City_Hotel_Shanghai_dettagli.jpg"], "notes": "4 stars. 4 rooms for the 7 travellers (Stefano, 25 Oct 2026). Booking shows \"Pay now\": still to pay."}, {"id": "train-g899", "category": "train", "title": "Train G899 Shanghai Hongqiao → Shenzhen North", "provider": "Booking platform (screenshot 25 Oct 2026)", "status": "assumed", "payment": {"status": "none", "amount": null, "currency": "EUR", "eur": 172.02}, "start": "2026-12-07", "end": "2026-12-08", "segments": [{"number": "G899", "carrier": "China Railway", "from": "SHHQ", "to": "SZN", "depart": "2026-12-07T20:15", "arrive": "2026-12-08T06:42"}], "docs": [], "notes": "Hypothesis, to confirm. 10 h 27 min direct. 2nd class €86.01 · Premier €96.59 · sleeper €114.13 per person. Sale opens 23 Nov 13:45; passport needed."}, {"id": "stay-szx", "category": "stay", "title": "丽呈東谷酒店深圳华强北福星地铁站店 (Shenzhen)", "provider": "Booking.com (Ferrante's account)", "status": "booked", "payment": {"status": "at_property", "amount": 3468.82, "currency": "CNY", "eur": 464.11}, "start": "2026-12-08", "end": "2026-12-10", "checkIn": "14:00–00:00", "checkOut": "12:00", "address": "深圳市福田区福田街道福虹路5号中电福华大厦4–7楼, Futian, 518000", "placeId": "szx-hotel", "docs": ["Documenti_originali/Hotel_Shenzhen_conferma.jpg"], "notes": "Confirmed 25 Oct 2026, for the 7 travellers. No prepayment, pay at property. ~9 km from Shenzhen North; train arrives 06:42: ask for early check-in or luggage storage."}, {"id": "transfer-szx-mfm", "category": "transfer", "title": "Shenzhen → Macao (border crossing)", "status": "to_book", "payment": {"status": "none", "eur": 50}, "start": "2026-12-10", "end": "2026-12-10", "notes": "Route to plan."}, {"id": "stay-mfm", "category": "stay", "title": "Macau Hotel S", "provider": "Booking.com", "status": "booked", "payment": {"status": "paid", "amount": 4438.32, "currency": "MOP", "eur": 490.44}, "start": "2026-12-10", "end": "2026-12-12", "checkIn": "from 15:00", "checkOut": "11:00", "placeId": "mfm-hotel", "docs": [], "notes": "Booked, non-refundable, already paid (Stefano, 25 Oct 2026). For the 7 travellers. Original €607.35 − Genius €91.10 − property €25.81. Includes 5% tax + 10% service (€63.97). Paid in MOP, possible foreign fees."}], "routes": [{"id": "r1", "from": "MXP", "to": "CDG", "mode": "flight", "date": "2026-12-04", "label": "MU1776", "bookingId": "flt-gotogate"}, {"id": "r2", "from": "CDG", "to": "PVG", "mode": "flight", "date": "2026-12-04", "label": "MU570", "bookingId": "flt-gotogate"}, {"id": "r3", "from": "PVG", "to": "sha-hotel", "mode": "transfer", "date": "2026-12-05", "label": "Airport → hotel"}, {"id": "r4", "from": "SHHQ", "to": "SZN", "mode": "train", "date": "2026-12-07", "label": "G899 (night)", "bookingId": "train-g899"}, {"id": "r5", "from": "SZN", "to": "szx-hotel", "mode": "transfer", "date": "2026-12-08", "label": "Station → hotel"}, {"id": "r6", "from": "szx-hotel", "to": "mfm-hotel", "mode": "transfer", "date": "2026-12-10", "label": "Shenzhen → Macao", "bookingId": "transfer-szx-mfm"}, {"id": "r7", "from": "MFM", "to": "PVG", "mode": "flight", "date": "2026-12-12", "label": "MU2008", "bookingId": "flt-gotogate"}, {"id": "r8", "from": "PVG", "to": "MXP", "mode": "flight", "date": "2026-12-13", "label": "MU243", "bookingId": "flt-gotogate"}], "days": [{"date": "2026-12-04", "base": "In transit", "items": []}, {"date": "2026-12-05", "base": "Shanghai", "items": []}, {"date": "2026-12-06", "base": "Shanghai", "items": []}, {"date": "2026-12-07", "base": "Night train", "items": []}, {"date": "2026-12-08", "base": "Shenzhen", "items": []}, {"date": "2026-12-09", "base": "Shenzhen", "items": []}, {"date": "2026-12-10", "base": "Macao", "items": [{"text": "Transfer Shenzhen → Macao (route to plan)", "bookingId": "transfer-szx-mfm"}]}, {"date": "2026-12-11", "base": "Macao", "items": []}, {"date": "2026-12-12", "base": "In transit", "items": []}, {"date": "2026-12-13", "base": "Home", "items": []}], "deadlines": [{"id": "dl-pay-sha", "title": "Pay City Hotel Shanghai (CNY 3,801.60)", "due": null, "hard": false, "kind": "payment", "bookingId": "stay-sha", "status": "open", "notes": "Booking shows \"Pay now\"."}, {"id": "dl-macau-confirm", "title": "Confirm Macau Hotel S booking and payment terms", "due": null, "hard": false, "kind": "decision", "bookingId": "stay-mfm", "status": "done", "notes": "Booked, non-refundable (25 Oct 2026)."}, {"id": "dl-g899-decide", "title": "Decide on train G899 (go / no go)", "due": "2026-11-23", "hard": false, "kind": "decision", "bookingId": "train-g899", "status": "open", "notes": "Needed before sale opens."}, {"id": "dl-g899-sale", "title": "G899 tickets go on sale", "due": "2026-11-23T13:45", "hard": true, "kind": "booking_opens", "bookingId": "train-g899", "status": "open", "notes": "Time zone of the 13:45 not stated on the screenshot: check. Passport required."}, {"id": "dl-szx-route", "title": "Plan Shenzhen → Macao transfer", "due": null, "hard": false, "kind": "decision", "bookingId": "transfer-szx-mfm", "status": "open"}, {"id": "dl-szx-early", "title": "Ask Shenzhen hotel for early check-in / luggage storage (arrival 06:42)", "due": "2026-12-07", "hard": false, "kind": "other", "bookingId": "stay-szx", "status": "open"}, {"id": "dl-visa-reconfirm", "title": "Reconfirm China visa-free rule (valid to 31 Dec 2026)", "due": "2026-11-30", "hard": false, "kind": "visa", "status": "open"}, {"id": "dl-checkin-out", "title": "Online check-in MU1776 / MU570", "due": "2026-12-03", "hard": false, "kind": "checkin", "bookingId": "flt-gotogate", "status": "open"}, {"id": "dl-checkin-mu2008", "title": "Online check-in MU2008", "due": "2026-12-11", "hard": false, "kind": "checkin", "bookingId": "flt-gotogate", "status": "open"}, {"id": "dl-checkin-mu243", "title": "Online check-in MU243", "due": "2026-12-12", "hard": false, "kind": "checkin", "bookingId": "flt-gotogate", "status": "open"}, {"id": "dl-pay-szx", "title": "Pay Shenzhen hotel at property (CNY 3,468.82)", "due": "2026-12-08", "hard": true, "kind": "payment", "bookingId": "stay-szx", "status": "open"}], "budget": [{"id": "b-flights", "label": "International flights", "group": "Transport", "basis": "per_person", "eur": 800, "status": "placeholder", "bookingId": "flt-gotogate", "included": true, "source": "Placeholder €800 pp × 7; Gotogate tickets cover only Stefano and Ferrante, price not in email"}, {"id": "b-g899", "label": "Train G899 (2nd class)", "group": "Transport", "basis": "per_person", "eur": 86.01, "status": "quote", "bookingId": "train-g899", "included": true}, {"id": "b-sha", "label": "City Hotel Shanghai", "group": "Stays", "basis": "group", "eur": 508.63, "amount": 3801.6, "currency": "CNY", "status": "booked", "bookingId": "stay-sha", "included": true}, {"id": "b-szx", "label": "Hotel Shenzhen", "group": "Stays", "basis": "group", "eur": 464.11, "amount": 3468.82, "currency": "CNY", "status": "booked", "bookingId": "stay-szx", "included": true}, {"id": "b-mfm", "label": "Macau Hotel S", "group": "Stays", "basis": "group", "eur": 490.44, "amount": 4438.32, "currency": "MOP", "status": "booked", "bookingId": "stay-mfm", "included": true}, {"id": "b-szx-mfm", "label": "Shenzhen → Macao", "group": "Transport", "basis": "per_person", "eur": 25, "status": "estimate", "included": true}, {"id": "b-local", "label": "Local transport", "group": "Transport", "basis": "per_person", "eur": 40, "status": "estimate", "included": true}, {"id": "b-daily", "label": "Daily spending (9 days × €50)", "group": "Living", "basis": "per_person", "eur": 450, "status": "estimate", "included": true}, {"id": "b-visa", "label": "Visas", "group": "Documents", "basis": "per_person", "eur": 0, "status": "official", "included": true, "source": "Visa-free"}, {"id": "b-insurance", "label": "Travel insurance", "group": "Documents", "basis": "per_person", "eur": 40, "status": "estimate", "included": true}, {"id": "b-esim", "label": "eSIM / data", "group": "Living", "basis": "per_person", "eur": 15, "status": "estimate", "included": true}], "todos": [{"group": "Documents & entry", "items": [{"id": "t-passport", "text": "Passports valid 6+ months", "done": false}, {"id": "t-arrival-card", "text": "Check if China online arrival card is needed", "done": false}, {"id": "t-insurance", "text": "Travel insurance", "done": false}]}, {"group": "Bookings", "items": [{"id": "t-pay-sha", "text": "Pay City Hotel Shanghai", "done": false}, {"id": "t-g899", "text": "Decide and book train G899 (sale 23 Nov 13:45)", "done": false}, {"id": "t-szx-early", "text": "Shenzhen hotel: ask early check-in / luggage storage", "done": false}, {"id": "t-szx-mfm", "text": "Plan Shenzhen → Macao transfer", "done": false}, {"id": "t-mfm", "text": "Confirm Macau Hotel S", "done": true}, {"id": "t-checkin", "text": "Online check-in MU2008 and MU243", "done": false}, {"id": "t-other-flights", "text": "Record flights for Choppy, Greg, Angelo, Chicco and Sandro", "done": false}]}, {"group": "Gear & money", "items": [{"id": "t-esim", "text": "eSIM", "done": false}, {"id": "t-pay-apps", "text": "Alipay / WeChat Pay set up", "done": false}, {"id": "t-clothes", "text": "Warm clothes (Shanghai 4–11 °C)", "done": false}, {"id": "t-adapter", "text": "Plug adapter", "done": false}]}], "documents": [{"file": "Documenti_originali/City_Hotel_Shanghai_dettagli.jpg", "title": "City Hotel Shanghai: details", "bookingId": "stay-sha", "public": true}, {"file": "Documenti_originali/Hotel_Shenzhen_conferma.jpg", "title": "Shenzhen hotel: confirmation", "bookingId": "stay-szx", "public": true}], "entry": [{"country": "China (mainland)", "rule": "Italians visa-free until 31 Dec 2026, stays up to 30 days. Proof of accommodation and return ticket may be asked.", "status": "check", "source": "Travel-Dealz, Quality Travel (Nov 2025): reconfirm"}, {"country": "Macao", "rule": "Visa-free up to 90 days.", "status": "ok", "source": "Consolato d'Italia a Hong Kong e Macao"}, {"country": "Passport", "rule": "At least 6 months validity recommended.", "status": "check"}], "openQuestions": [{"id": "q-rooms", "text": "Shanghai hotel shows 4 rooms: just Stefano and Ferrante, or a larger group?", "status": "resolved", "answer": "4 rooms for the 7 travellers (Stefano, 25 Oct 2026)."}, {"id": "q-macau-pay", "text": "Macau Hotel S: already paid, or pay at the property?", "status": "resolved", "answer": "Booked, non-refundable and already paid (Stefano, 25 Oct 2026)."}, {"id": "q-g899", "text": "Train G899: go or no go (sale from 23 Nov)?", "status": "open"}, {"id": "q-flight-price", "text": "Real price of the flights?", "status": "open"}, {"id": "q-szx-mfm", "text": "Which route Shenzhen → Macao?", "status": "open"}, {"id": "q-other-flights", "text": "Flights of Choppy, Greg, Angelo, Chicco and Sandro: booked? Which flights?", "status": "open"}], "checks": [{"id": "chk-rates", "title": "Exchange rates CNY / HKD / MOP vs budget", "kind": "rate", "source": "api.frankfurter.dev (CNY, HKD); MOP = HKD / 1.03", "rule": "Flag if any rate moved more than 3% from trip.rates", "browser": false, "last": {"date": "2026-10-25", "status": "ok", "value": "1 CNY = €0.1338 · 1 HKD = €0.1138 · 1 MOP = €0.1105", "note": "Budget rates (AllRatesToday)"}}, {"id": "chk-visa-cn", "title": "China visa-free entry for Italians", "kind": "rule", "source": "Chinese embassy in Italy, Viaggiare Sicuri (Cina)", "rule": "Flag if the visa-free rule (to 31 Dec 2026, 30 days) changes or no longer covers 4–13 Dec 2026", "browser": false, "last": {"date": "2026-10-25", "status": "pending", "note": "Not checked online yet; last source Nov 2025"}}, {"id": "chk-arrival-card", "title": "China online arrival card requirement", "kind": "rule", "source": "China National Immigration Administration (NIA) / embassy", "rule": "Flag if an online arrival card is required, with the link", "browser": false, "last": {"date": "2026-10-25", "status": "pending", "note": "Not checked yet"}}, {"id": "chk-g899", "title": "Train G899 timetable, seats and price", "kind": "availability", "source": "12306 / Trip.com train search", "rule": "Before 23 Nov: confirm the 20:15 → 06:42 timetable still runs. From 23 Nov 13:45: report seats and price per class; flag if sold out or price > €100 (2nd class)", "baseline": "2nd €86.01 · Premier €96.59 · sleeper €114.13 (25 Oct 2026)", "browser": true, "last": {"date": "2026-10-25", "status": "pending", "value": "Sale opens 23 Nov 13:45", "note": "Screenshot 25 Oct 2026"}}], "scheduled": [{"id": "sch-g899-sale-early", "when": "2026-11-23T06:30", "action": "Early reminder: G899 sale may open 06:45 Italy (13:45 Beijing); check timetable, seats and price", "allowed": "check and notify only", "taskId": "trip-g899-sale-early", "agreed": "2026-10-25", "status": "planned", "deadlineId": "dl-g899-sale"}, {"id": "sch-g899-sale", "when": "2026-11-23T13:30", "action": "Remind: G899 tickets go on sale at 13:45; check timetable, seats and price", "allowed": "check and notify only", "taskId": "trip-g899-sale", "agreed": "2026-10-25", "status": "planned", "deadlineId": "dl-g899-sale"}], "notes": ["Content rule: itinerary holds only what Stefano stated or booked. No invented activities.", "Weather: Shanghai in December about 4–11 °C."], "updated": "2026-10-25", "_folder": "Shanghai-Shenzhen-Macao_2026"}];</script>
+<script>
+/* Trips app: reads/writes <trip folder>/trip.json through framework/server.py. No build step. */
+"use strict";
+
+// Static mode: a published, view-only snapshot with the data embedded as window.TRIPS_DATA (see framework/publish.py).
+// Sandboxed: a claude.ai artifact frame (no map tiles, no #/path URLs); a standalone site (TRIPS_META.mode "site") has neither limit.
+const S = { trips: [], byId: {}, saving: false, whatIf: {}, geo: {}, map: null, static: !!window.TRIPS_DATA, route: null };
+S.sandboxed = S.static && (window.TRIPS_META || {}).mode !== "site";
+const $ = (sel, el = document) => el.querySelector(sel);
+const view = $("#view");
+
+// ---------- helpers ----------
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+const dayNum = (iso) => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / 864e5;
+const daysUntil = (iso) => dayNum(iso.slice(0, 10)) - dayNum(todayISO());
+const parseDue = (v) => (v ? new Date(v.includes("T") ? v : v + "T23:59") : null);
+const fmtDate = (iso, o = { weekday: "short", day: "numeric", month: "short" }) =>
+  iso ? new Date(iso.slice(0, 10) + "T12:00").toLocaleDateString("en-GB", o) : "";
+const fmtTime = (iso) => (iso && iso.includes("T") ? iso.slice(11, 16) : "");
+const eur = (n, d = 0) => (n == null ? "—" : "€" + n.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }));
+const money = (amount, cur) => (amount == null ? "" : `${cur || ""} ${amount.toLocaleString("en-GB", { maximumFractionDigits: 2 })}`.trim());
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const optionOn = (t, item) => !item.option || (t.options || []).some((o) => o.id === item.option && o.enabled !== false);
+const travelers = (t) => S.whatIf[t.id] ?? (t.travelerCount || (t.travelers || []).length || 1);
+const placeName = (t, id) => ((t.places || []).find((p) => p.id === id) || {}).name || id;
+const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+
+const CLS = {
+  booking: { booked: "ok", pending: "warn", quote: "info", assumed: "warn", to_book: "bad", cancelled: "" },
+  payment: { paid: "ok", due: "bad", at_property: "info", deposit: "warn", none: "", unknown: "warn" },
+  budget: { booked: "ok", official: "ok", quote: "info", estimate: "warn", placeholder: "warn", to_estimate: "bad" },
+  entry: { ok: "ok", required: "warn", check: "info" },
+  check: { ok: "ok", flag: "bad", changed: "warn", failed: "warn", pending: "" },
+  scheduled: { planned: "info", done: "ok", cancelled: "", failed: "bad" },
+};
+const LABEL = {
+  to_book: "to book", at_property: "pay at property", to_estimate: "to estimate", booking_opens: "sale opens",
+  per_person: "pp", group: "group", none: "not paid",
+};
+const lab = (s) => LABEL[s] || s;
+const pill = (text, cls = "") => `<span class="pill ${cls}">${esc(text)}</span>`;
+const CAT_ORDER = ["flight", "train", "car", "stay", "transfer", "equipment", "permit", "insurance", "other"];
+const CAT_LABEL = { flight: "Flights", train: "Trains", car: "Cars", stay: "Stays", transfer: "Transfers", equipment: "Equipment", permit: "Permits", insurance: "Insurance", other: "Other" };
+const ICON = { flight: "✈︎", train: "🚆", car: "🚙", transfer: "🚐", ferry: "⛴", walk: "🚶", stay: "🛏", user: "•" };
+
+function toast(msg, ms = 3200) {
+  const el = $("#toast");
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), ms);
+}
+
+// ---------- derived data ----------
+function activeBookings(t) {
+  return (t.bookings || []).filter((b) => optionOn(t, b) && b.status !== "cancelled" && (!b.choice || b.selected));
+}
+function needsAction(t) {
+  return activeBookings(t).filter((b) => ["pending", "assumed", "to_book", "quote"].includes(b.status) || ["due", "unknown"].includes((b.payment || {}).status));
+}
+function openDeadlines(t) {
+  return (t.deadlines || []).filter((d) => d.status === "open" && optionOn(t, d));
+}
+function bucketize(rows) {
+  const now = new Date(), soon = new Date(now.getTime() + 30 * 864e5);
+  const b = { overdue: [], soon: [], later: [], undated: [] };
+  for (const r of rows) {
+    const due = parseDue(r.d.due);
+    if (!due) b.undated.push(r);
+    else if (due < now) b.overdue.push(r);
+    else if (due <= soon) b.soon.push(r);
+    else b.later.push(r);
+  }
+  const byDue = (x, y) => parseDue(x.d.due) - parseDue(y.d.due);
+  b.overdue.sort(byDue); b.soon.sort(byDue); b.later.sort(byDue);
+  return b;
+}
+function budgetLineOn(t, b) {
+  return b.included !== false && optionOn(t, b) && (!b.choice || b.selected);
+}
+function budgetTotals(t, n = travelers(t)) {
+  let total = 0, core = 0, option = 0, missing = 0;
+  for (const b of t.budget || []) {
+    if (!budgetLineOn(t, b)) continue;
+    if (b.eur == null) { missing++; continue; }
+    const v = b.eur * (b.basis === "per_person" ? n : 1);
+    total += v; if (b.option) option += v; else core += v;
+  }
+  return { total, pp: total / n, core, option, missing, n };
+}
+function todoStats(t) {
+  const items = (t.todos || []).flatMap((g) => g.items).filter((i) => optionOn(t, i));
+  return { done: items.filter((i) => i.done).length, total: items.length };
+}
+function countdown(t) {
+  const until = daysUntil(t.start), left = daysUntil(t.end);
+  if (until > 0) return { big: until, small: until === 1 ? "day to go" : "days to go" };
+  if (left >= 0) return { big: `Day ${1 - until}`, small: `of ${dayNum(t.end) - dayNum(t.start) + 1}` };
+  return { big: "✓", small: "done" };
+}
+function stayOn(t, date) {
+  return activeBookings(t).find((b) => b.category === "stay" && b.start <= date && date < b.end);
+}
+
+// ---------- API ----------
+async function loadAll() {
+  const r = await fetch("/api/trips", { cache: "no-store" });
+  if (!r.ok) throw new Error((await r.json()).error || r.statusText);
+  setTrips(await r.json());
+}
+function setTrips(list) {
+  S.trips = list;
+  S.byId = Object.fromEntries(list.map((t) => [t.id, t]));
+}
+async function mutate(tripId, fn, okMsg) {
+  if (S.static) { toast("View only: this is a shared snapshot."); render(); return; }
+  const t = clone(S.byId[tripId]);
+  fn(t);
+  S.saving = true; $("#sync").textContent = "Saving…";
+  try {
+    const r = await fetch(`/api/trips/${encodeURIComponent(tripId)}`, {
+      method: "PUT", headers: { "Content-Type": "application/json", "If-Match": t._etag }, body: JSON.stringify(t),
+    });
+    const body = await r.json();
+    if (r.status === 409) { await loadAll(); toast("trip.json was changed elsewhere (agent?). Reloaded, please redo your change."); }
+    else if (!r.ok) toast("Save failed: " + (body.error || r.status));
+    else { S.byId[tripId] = body; S.trips = S.trips.map((x) => (x.id === tripId ? body : x)); if (okMsg) toast(okMsg); }
+  } catch (e) { toast("Save failed: server not reachable"); }
+  S.saving = false; $("#sync").textContent = "Saved";
+  render();
+}
+
+// ---------- components ----------
+function deadlineRow(t, d, { showTrip = false, editable = false } = {}) {
+  const due = parseDue(d.due), done = d.status !== "open";
+  const dleft = d.due ? daysUntil(d.due) : null;
+  const when = d.due
+    ? `<b>${esc(fmtDate(d.due))}${fmtTime(d.due) ? " " + fmtTime(d.due) : ""}</b><span class="muted">${dleft === 0 ? "today" : dleft > 0 ? `in ${plural(dleft, "day")}` : `${-dleft} d ago`}</span>`
+    : `<b class="muted">No date</b>`;
+  const dateCell = editable
+    ? `<input type="date" value="${esc((d.due || "").slice(0, 10))}" data-action="dl-due" data-trip="${esc(t.id)}" data-id="${esc(d.id)}" aria-label="Due date">`
+    : when;
+  const booking = d.bookingId ? (t.bookings || []).find((b) => b.id === d.bookingId) : null;
+  return `<div class="dl ${done ? "done" : ""}" style="--trip:${esc(t.accent)}">
+    <label class="check"><input type="checkbox" ${done ? "checked" : ""} data-action="dl-done" data-trip="${esc(t.id)}" data-id="${esc(d.id)}" aria-label="Mark done"></label>
+    <div class="dl-when ${due && due < new Date() && !done ? "overdue" : ""}">${dateCell}</div>
+    <div class="dl-title">${esc(d.title)}${d.url ? ` <a href="${esc(d.url)}" target="_blank" rel="noopener">↗</a>` : ""}
+      ${d.notes || booking ? `<div class="muted small">${esc(d.notes || "")}${booking && editable ? ` ${d.notes ? "· " : ""}${esc(booking.title)}` : ""}</div>` : ""}</div>
+    <div class="dl-meta">${showTrip ? `<a class="pill trip" href="#/trip/${esc(t.id)}/deadlines">${esc(t.name)}</a>` : ""}
+      ${pill(d.hard ? "hard" : "soft", d.hard ? "bad" : "")}${pill(lab(d.kind))}</div>
+  </div>`;
+}
+function deadlineBuckets(rows, opts) {
+  const b = bucketize(rows);
+  const grp = (title, list) => (list.length ? `<div class="dl-group"><h3>${title} · ${list.length}</h3>${list.map((r) => deadlineRow(r.t, r.d, opts)).join("")}</div>` : "");
+  const html = grp("Overdue", b.overdue) + grp("Next 30 days", b.soon) + grp("Later", b.later) + grp("No date yet", b.undated);
+  return html || `<p class="empty">No open deadlines.</p>`;
+}
+
+function checkList(t, list, showTrip = false) {
+  const rows = list.filter((c) => optionOn(t, c)).map((c) => {
+    const last = c.last || {}, st = last.status || "pending";
+    return `<li><div class="bk-head"><b>${esc(c.title)}</b><span class="bk-pills">${showTrip ? `<a class="pill trip" style="--trip:${esc(t.accent)}" href="#/trip/${esc(t.id)}">${esc(t.name)}</a>` : ""}${pill(st, CLS.check[st])}</span></div>
+      <div class="small">${esc(last.value || last.note || "Not checked yet")}${last.value && last.note ? ` <span class="muted">· ${esc(last.note)}</span>` : ""}</div>
+      <div class="muted small">Rule: ${esc(c.rule)} · checked ${esc(last.date ? fmtDate(last.date) : "never")}${c.browser ? " · needs browser" : ""}</div></li>`;
+  });
+  return rows.length ? `<ul class="list">${rows.join("")}</ul>` : `<p class="empty">No checks defined.</p>`;
+}
+function scheduledList(t, list, showTrip = false) {
+  const rows = list.map((s) => `<li><div class="bk-head"><b>${esc(fmtDate(s.when))} ${fmtTime(s.when)}</b><span class="bk-pills">${showTrip ? `<a class="pill trip" style="--trip:${esc(t.accent)}" href="#/trip/${esc(t.id)}">${esc(t.name)}</a>` : ""}${pill(s.status, CLS.scheduled[s.status])}</span></div>
+    <div>${esc(s.action)}</div><div class="muted small">Allowed: ${esc(s.allowed || "—")}${s.agreed ? ` · agreed ${esc(fmtDate(s.agreed))}` : ""}${s.result ? ` · ${esc(s.result)}` : ""}</div></li>`);
+  return rows.length ? `<ul class="list">${rows.join("")}</ul>` : `<p class="empty">Nothing scheduled. Agree a one-off action with the agent (time + exactly what it may do).</p>`;
+}
+
+// ---------- home ----------
+function renderHome() {
+  document.title = "Trips";
+  const cards = S.trips.filter((t) => t.status !== "archived").map((t) => {
+    const c = countdown(t), bt = budgetTotals(t), td = todoStats(t);
+    const act = activeBookings(t), booked = act.filter((b) => b.status === "booked").length;
+    const next = bucketize(openDeadlines(t).map((d) => ({ t, d })));
+    const nx = next.overdue[0] || next.soon[0] || next.later[0];
+    return `<a class="card trip-card" href="#/trip/${esc(t.id)}" style="--trip:${esc(t.accent)}">
+      <div class="row"><div><h2>${esc(t.name)}</h2><div class="muted small">${esc(fmtDate(t.start, { day: "numeric", month: "short", year: "numeric" }))} → ${esc(fmtDate(t.end, { day: "numeric", month: "short", year: "numeric" }))}</div></div>
+        <div style="text-align:right"><div class="count">${esc(c.big)}</div><div class="muted small">${esc(c.small)}</div></div></div>
+      <div class="stats">
+        <div class="stat"><div class="label">Bookings</div><div class="value">${booked}/${act.length}</div><div class="meter"><span style="width:${act.length ? (100 * booked) / act.length : 0}%"></span></div></div>
+        <div class="stat"><div class="label">To-do</div><div class="value">${td.done}/${td.total}</div><div class="meter"><span style="width:${td.total ? (100 * td.done) / td.total : 0}%"></span></div></div>
+        <div class="stat"><div class="label">Budget pp</div><div class="value">${eur(bt.pp)}</div><div class="muted small">${bt.missing ? `${bt.missing} to estimate` : "complete"}</div></div>
+      </div>
+      <div class="next">${nx ? `<span class="muted">Next:</span> ${nx.d.due ? `<b>${esc(fmtDate(nx.d.due))}</b> · ` : ""}${esc(nx.d.title)}` : `<span class="muted">No open deadlines</span>`}
+        ${next.overdue.length ? " " + pill(`${next.overdue.length} overdue`, "bad") : ""} ${next.undated.length ? pill(`${next.undated.length} undated`) : ""}</div>
+    </a>`;
+  }).join("");
+
+  const rows = S.trips.flatMap((t) => openDeadlines(t).map((d) => ({ t, d })));
+  const attention = S.trips.map((t) => {
+    const list = needsAction(t);
+    return `<div class="card" style="--trip:${esc(t.accent)}"><div class="section-head"><h3>${esc(t.name)}</h3><span class="muted">${plural(list.length, "item")}</span></div>
+      <ul class="list">${list.map((b) => `<li><a href="#/trip/${esc(t.id)}/bookings">${esc(b.title)}</a><div class="bk-pills" style="margin-top:4px">${pill(lab(b.status), CLS.booking[b.status])}${["due", "unknown"].includes((b.payment || {}).status) ? pill("payment " + lab(b.payment.status), CLS.payment[b.payment.status]) : ""}</div></li>`).join("") || `<li class="empty">All set</li>`}</ul></div>`;
+  }).join("");
+
+  view.innerHTML = `
+    <div class="section-head" style="margin-top:8px"><h1>All trips</h1><span class="muted">${plural(S.trips.length, "trip")}</span></div>
+    <div class="grid grid-2">${cards}</div>
+    <section class="section"><div class="section-head"><h2>Deadlines</h2><span class="muted">all trips · open only</span></div>
+      <div class="card">${deadlineBuckets(rows, { showTrip: true })}</div></section>
+    <section class="section grid grid-2">
+      <div class="card"><div class="section-head"><h2>Check results</h2><span class="muted">flags and changes · ask “update” to refresh</span></div>
+        ${(() => { const hits = S.trips.flatMap((t) => (t.checks || []).filter((c) => optionOn(t, c) && ["flag", "changed", "failed"].includes((c.last || {}).status)).map((c) => checkList(t, [c], true)));
+          return hits.length ? hits.join("") : `<p class="empty">No flags. Last results are on each trip's Overview.</p>`; })()}</div>
+      <div class="card"><div class="section-head"><h2>Scheduled actions</h2><span class="muted">one-off, agreed in advance</span></div>
+        ${(() => { const planned = S.trips.flatMap((t) => (t.scheduled || []).filter((s) => s.status === "planned").map((s) => ({ t, s }))).sort((a, b) => (a.s.when < b.s.when ? -1 : 1));
+          return planned.length ? planned.map(({ t, s }) => scheduledList(t, [s], true)).join("") : `<p class="empty">Nothing scheduled.</p>`; })()}</div>
+    </section>
+    <section class="section"><div class="section-head"><h2>Needs attention</h2><span class="muted">bookings not confirmed or not paid</span></div>
+      <div class="grid grid-2">${attention}</div></section>`;
+}
+
+// ---------- trip ----------
+const TABS = [["overview", "Overview"], ["itinerary", "Itinerary"], ["bookings", "Bookings"], ["deadlines", "Deadlines"], ["budget", "Budget"], ["todo", "To-do"], ["docs", "Documents"]];
+
+function renderTrip(t, tab) {
+  document.title = `${t.name} · Trips`;
+  const b = bucketize(openDeadlines(t).map((d) => ({ t, d })));
+  const badges = { deadlines: b.overdue.length + b.soon.length, bookings: needsAction(t).length };
+  const c = countdown(t);
+  const body = { overview: tabOverview, itinerary: tabItinerary, bookings: tabBookings, deadlines: tabDeadlines, budget: tabBudget, todo: tabTodo, docs: tabDocs }[tab] || tabOverview;
+  view.innerHTML = `<div style="--trip:${esc(t.accent)}">
+    ${S.trips.length > 1 ? `<a class="back" href="#/">← All trips</a>` : ""}
+    <div class="trip-hero"><h1>${esc(t.name)}</h1><div class="sub">${esc(t.subtitle || "")} · ${esc(fmtDate(t.start))} → ${esc(fmtDate(t.end, { weekday: "short", day: "numeric", month: "short", year: "numeric" }))} · <b>${esc(c.big)}</b> ${esc(c.small)}</div></div>
+    <nav class="tabs" aria-label="Trip sections">${TABS.map(([id, name]) => `<a class="tab" href="#/trip/${esc(t.id)}/${id}" ${id === tab ? 'aria-current="page"' : ""}>${name}${badges[id] ? `<span class="badge">${badges[id]}</span>` : ""}</a>`).join("")}</nav>
+    <div class="section">${body(t)}</div></div>`;
+  if (tab === "itinerary") drawMap(t);
+}
+
+function tabOverview(t) {
+  const bt = budgetTotals(t), act = activeBookings(t), td = todoStats(t);
+  const names = (t.travelers || []).map((p) => p.name).join(", ");
+  const facts = [
+    ["Dates", `${fmtDate(t.start)} → ${fmtDate(t.end)} · ${dayNum(t.end) - dayNum(t.start) + 1} days`],
+    ["Travellers", `${t.travelerCount || (t.travelers || []).length}${names ? ` · ${names}` : ""}${t.vehicles ? ` · ${t.vehicles} vehicles` : ""}`],
+    ["Status", t.status],
+    ["Bookings confirmed", `${act.filter((b) => b.status === "booked").length} of ${act.length}`],
+    ["Budget", `${eur(bt.total)} · ${eur(bt.pp)} pp${bt.missing ? ` · ${bt.missing} to estimate` : ""}`],
+    ["To-do", `${td.done} of ${td.total} done`],
+    ["Rates", t.rates ? `${Object.entries(t.rates.eurPer || {}).map(([k, v]) => `1 ${k} = €${v}`).join(" · ")} (${t.rates.date})` : "—"],
+  ];
+  const opts = (t.options || []).map((o) => `<label class="toggle"><input type="checkbox" ${o.enabled !== false ? "checked" : ""} data-action="opt-toggle" data-trip="${esc(t.id)}" data-id="${esc(o.id)}">
+    <span><b>${esc(o.name)}</b> <span class="muted small">${esc(fmtDate(o.start))} → ${esc(fmtDate(o.end))} · affects itinerary, map, budget, to-do, deadlines</span></span></label>`).join("");
+  return `<div class="facts">${facts.map(([k, v]) => `<div class="fact"><div class="label">${esc(k)}</div><div class="value">${esc(v)}</div></div>`).join("")}</div>
+    ${opts ? `<div class="card section"><h2>Optional extension</h2>${opts}</div>` : ""}
+    <div class="grid grid-2 section">
+      <div class="card"><h2>Open questions</h2><ul class="list">${(t.openQuestions || []).map((q) => `<li class="todo ${q.status === "resolved" ? "done" : ""}"><span class="check"><input type="checkbox" id="q-${esc(q.id)}" ${q.status === "resolved" ? "checked" : ""} data-action="q-toggle" data-trip="${esc(t.id)}" data-id="${esc(q.id)}"></span><label for="q-${esc(q.id)}">${esc(q.text)}${q.answer ? `<div class="muted small">${esc(q.answer)}</div>` : ""}</label></li>`).join("") || `<li class="empty">None</li>`}</ul></div>
+      <div class="card"><h2>Entry &amp; documents</h2><ul class="list">${(t.entry || []).map((e) => `<li><b>${esc(e.country)}</b> ${pill(e.status, CLS.entry[e.status])}<div class="small">${esc(e.rule)}${e.url ? ` <a href="${esc(e.url)}" target="_blank" rel="noopener">↗</a>` : ""}</div>${e.source ? `<div class="muted small">${esc(e.source)}</div>` : ""}</li>`).join("")}</ul></div>
+    </div>
+    <div class="grid grid-2 section">
+      <div class="card"><div class="section-head"><h2>Online checks</h2><span class="muted">refreshed only when you ask for an update</span></div>${checkList(t, t.checks || [])}</div>
+      <div class="card"><div class="section-head"><h2>Scheduled actions</h2><span class="muted">one-off, agreed in advance</span></div>${scheduledList(t, t.scheduled || [])}</div>
+    </div>
+    ${(t.notes || []).length ? `<div class="card section"><h2>Notes</h2><ul class="list">${t.notes.map((n) => `<li class="small">${esc(n)}</li>`).join("")}</ul></div>` : ""}`;
+}
+
+function dayEvents(t, date) {
+  const ev = [];
+  for (const b of activeBookings(t)) {
+    for (const s of b.segments || []) {
+      const icon = ICON[b.category] || "•", flag = b.status !== "booked" ? " " + pill(lab(b.status), CLS.booking[b.status]) : "";
+      if (s.depart.slice(0, 10) === date) {
+        const plus = s.arrive && s.arrive.slice(0, 10) !== date ? ` (+${dayNum(s.arrive.slice(0, 10)) - dayNum(date)})` : "";
+        ev.push({ k: s.depart, html: `<span class="ico">${icon}</span><span><b>${esc(s.number)}</b> ${esc(placeName(t, s.from))} ${fmtTime(s.depart)} → ${esc(placeName(t, s.to))} ${fmtTime(s.arrive)}${plus}${flag}</span>` });
+      } else if (s.arrive && s.arrive.slice(0, 10) === date) {
+        ev.push({ k: s.arrive, html: `<span class="ico">${icon}</span><span>Arrive ${esc(placeName(t, s.to))} ${fmtTime(s.arrive)} <span class="muted">(${esc(s.number)})</span>${flag}</span>` });
+      }
+    }
+    if (b.category === "stay") {
+      const flag = b.status !== "booked" ? " " + pill(lab(b.status), CLS.booking[b.status]) : "";
+      if (b.end === date) ev.push({ k: date + "T09", html: `<span class="ico">🛏</span><span>Check-out ${esc(b.title)}${b.checkOut ? ` <span class="muted">by ${esc(b.checkOut)}</span>` : ""}</span>` });
+      if (b.start === date) ev.push({ k: date + "T15", html: `<span class="ico">🛏</span><span>Check-in ${esc(b.title)}${b.checkIn ? ` <span class="muted">${esc(b.checkIn)}</span>` : ""}${flag}</span>` });
+    }
+  }
+  for (const r of t.routes || []) {
+    if (r.date !== date || !optionOn(t, r) || r.mode === "flight" || r.mode === "train") continue;
+    const km = r.km ? ` · ${r.km} km` : "", h = r.hours ? ` · ${r.hours} h` : "";
+    const a = (t.places || []).find((p) => p.id === r.from), b = (t.places || []).find((p) => p.id === r.to);
+    const gmaps = a && b ? ` <a class="small" href="https://www.google.com/maps/dir/?api=1&amp;origin=${a.lat},${a.lng}&amp;destination=${b.lat},${b.lng}&amp;travelmode=${r.mode === "walk" ? "walking" : "driving"}" target="_blank" rel="noopener">Map ↗</a>` : "";
+    ev.push({ k: date + "T12", html: `<span class="ico">${ICON[r.mode] || "•"}</span><span>${esc(r.label || `${placeName(t, r.from)} → ${placeName(t, r.to)}`)}<span class="muted">${km}${h}</span>${gmaps}</span>` });
+  }
+  return ev.sort((a, b) => (a.k < b.k ? -1 : 1));
+}
+
+function tabItinerary(t) {
+  const days = (t.days || []).filter((d) => optionOn(t, d));
+  const list = days.map((d) => {
+    const ev = dayEvents(t, d.date);
+    const user = (d.items || []).map((it, i) => `<div class="ev user"><span class="ico">•</span><span>${it.time ? `<b>${esc(it.time)}</b> ` : ""}${esc(it.text)} <button class="btn ghost" data-action="day-del" data-trip="${esc(t.id)}" data-date="${esc(d.date)}" data-i="${i}" aria-label="Remove">×</button></span></div>`).join("");
+    const empty = !ev.length && !user ? `<div class="empty">No activities planned</div>` : "";
+    return `<div class="day" data-day="${esc(d.date)}">
+      <div class="day-date"><div class="dow">${esc(fmtDate(d.date, { weekday: "short" }))}</div><div class="dnum">${esc(fmtDate(d.date, { day: "numeric" }))}</div><div class="mon">${esc(fmtDate(d.date, { month: "short" }))}</div></div>
+      <div><div class="day-base">${esc(d.base || "")} ${d.option ? `<span class="opt-tag">option</span>` : ""}</div>
+        ${ev.map((e) => `<div class="ev">${e.html}</div>`).join("")}${user}${empty}
+        <form class="add-row" data-action="day-add" data-trip="${esc(t.id)}" data-date="${esc(d.date)}"><input type="text" name="text" placeholder="Add your own activity…" aria-label="Add activity"><button class="btn" type="submit">Add</button></form>
+      </div></div>`;
+  }).join("");
+  return `<div class="itin"><div>${list}</div>
+    <div class="map-wrap"><div id="leafmap" role="region" aria-label="Trip map"></div>
+      <div class="map-btns"><button class="btn" type="button" data-action="map-fit" data-scope="main">Main area</button><button class="btn" type="button" data-action="map-fit" data-scope="all">Whole trip</button></div>
+      <p class="muted small">Tap a day to zoom. Solid = road, dashed = flight, dotted = train.</p></div></div>`;
+}
+
+function bookingCard(t, b) {
+  const pay = b.payment || {};
+  const price = [money(pay.amount, pay.currency), pay.eur != null ? `≈ ${eur(pay.eur, 2)}` : ""].filter(Boolean).join(" ");
+  const kv = [
+    ["Provider", b.provider], ["Ref", b.ref],
+    ["Dates", b.start ? `${fmtDate(b.start)}${b.end && b.end !== b.start ? ` → ${fmtDate(b.end)}` : ""}` : ""],
+    ["Check-in", b.checkIn], ["Check-out", b.checkOut], ["Address", b.address], ["Phone", b.phone], ["Price", price],
+  ].filter(([, v]) => v);
+  const sel = (name, opts, cur, cls) => `<select class="pill ${cls}" data-action="${name}" data-trip="${esc(t.id)}" data-id="${esc(b.id)}" aria-label="${name}">${opts.map((o) => `<option value="${o}" ${o === cur ? "selected" : ""}>${esc(lab(o))}</option>`).join("")}</select>`;
+  return `<div class="card bk ${b.choice && !b.selected ? "unselected" : ""}">
+    <div class="bk-head"><div class="bk-title">${esc(b.title)} ${b.option ? `<span class="opt-tag">option</span>` : ""}</div>
+      <div class="bk-pills">${sel("bk-status", ["booked", "pending", "quote", "assumed", "to_book", "cancelled"], b.status, CLS.booking[b.status])}${sel("bk-pay", ["paid", "due", "at_property", "deposit", "none", "unknown"], pay.status || "unknown", CLS.payment[pay.status || "unknown"])}</div></div>
+    ${b.choice ? `<label class="toggle"><input type="radio" name="choice-${esc(b.choice)}" ${b.selected ? "checked" : ""} data-action="choose" data-trip="${esc(t.id)}" data-choice="${esc(b.choice)}" data-booking="${esc(b.id)}"> <span class="small">Selected option for <b>${esc(b.choice)}</b></span></label>` : ""}
+    <dl class="kv">${kv.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+    ${(b.segments || []).map((s) => `<div class="seg">${ICON[b.category] || ""} <b>${esc(s.number)}</b> ${esc(s.from)} ${esc(fmtDate(s.depart))} ${fmtTime(s.depart)} → ${esc(s.to)} ${fmtTime(s.arrive)} <span class="muted">${esc(s.carrier || "")}</span></div>`).join("")}
+    ${b.notes ? `<div class="muted small">${esc(b.notes)}</div>` : ""}
+    <div class="small">${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">Website ↗</a> ` : ""}${(b.docs || []).map((f) => `<a href="${docHref(t, f)}" target="_blank">📄 ${esc(f.split("/").pop())}</a>`).join(" ")}</div>
+  </div>`;
+}
+function tabBookings(t) {
+  const list = (t.bookings || []).filter((b) => optionOn(t, b));
+  return CAT_ORDER.map((cat) => {
+    const items = list.filter((b) => b.category === cat);
+    return items.length ? `<h2 class="cat-title">${CAT_LABEL[cat]} · ${items.length}</h2><div class="grid grid-2">${items.map((b) => bookingCard(t, b)).join("")}</div>` : "";
+  }).join("") || `<p class="empty">No bookings yet.</p>`;
+}
+
+function tabDeadlines(t) {
+  const all = (t.deadlines || []).filter((d) => optionOn(t, d));
+  const done = all.filter((d) => d.status !== "open");
+  return `<div class="card">${deadlineBuckets(all.filter((d) => d.status === "open").map((d) => ({ t, d })), { editable: true })}</div>
+    <form class="card section add-row" style="flex-wrap:wrap" data-action="dl-add" data-trip="${esc(t.id)}">
+      <input type="text" name="title" placeholder="New deadline…" required aria-label="Deadline title" style="flex:2 1 220px">
+      <input type="date" name="due" aria-label="Due date">
+      <label class="toggle small"><input type="checkbox" name="hard"> hard date</label>
+      <button class="btn primary" type="submit">Add</button></form>
+    ${done.length ? `<div class="card section"><h3 class="muted">Done · ${done.length}</h3>${done.map((d) => deadlineRow(t, d, { editable: true })).join("")}</div>` : ""}`;
+}
+
+function tabBudget(t) {
+  const n = travelers(t), bt = budgetTotals(t, n);
+  const groups = [...new Set((t.budget || []).map((b) => b.group || "Other"))];
+  const rows = groups.map((g) => {
+    const items = (t.budget || []).filter((b) => (b.group || "Other") === g);
+    const sub = items.filter((b) => budgetLineOn(t, b) && b.eur != null).reduce((s, b) => s + b.eur * (b.basis === "per_person" ? n : 1), 0);
+    return `<tr class="grp"><td colspan="4">${esc(g)}</td><td class="num">${eur(sub)}</td></tr>` + items.map((b) => {
+      const on = budgetLineOn(t, b), optOff = !optionOn(t, b);
+      const groupV = b.eur == null ? null : b.eur * (b.basis === "per_person" ? n : 1);
+      const ctl = b.choice
+        ? `<input type="radio" name="bchoice-${esc(b.choice)}" ${b.selected ? "checked" : ""} ${optOff ? "disabled" : ""} data-action="choose" data-trip="${esc(t.id)}" data-choice="${esc(b.choice)}" data-budget="${esc(b.id)}" aria-label="Select">`
+        : `<input type="checkbox" ${b.included !== false ? "checked" : ""} ${optOff ? "disabled" : ""} data-action="bud-incl" data-trip="${esc(t.id)}" data-id="${esc(b.id)}" aria-label="Include">`;
+      return `<tr class="${on ? "" : "off"}"><td><span class="check">${ctl}</span></td>
+        <td class="lbl">${esc(b.label)}${b.option ? ` <span class="opt-tag">option</span>` : ""}${b.source ? `<div class="muted small">${esc(b.source)}</div>` : ""}</td>
+        <td>${pill(lab(b.status), CLS.budget[b.status])}</td>
+        <td class="num">${b.eur == null ? "—" : eur(b.basis === "per_person" ? b.eur : b.eur / n)}<div class="muted small">${lab(b.basis)}</div></td>
+        <td class="num">${eur(groupV)}</td></tr>`;
+    }).join("");
+  }).join("");
+  return `<div class="totals">
+      <div class="fact"><div class="label">Group total</div><div class="value">${eur(bt.total)}</div></div>
+      <div class="fact"><div class="label">Per person</div><div class="value">${eur(bt.pp)}</div></div>
+      ${(t.options || []).length ? `<div class="fact"><div class="label">Main trip · option</div><div class="value">${eur(bt.core)} · ${eur(bt.option)}</div></div>` : ""}
+      <div class="fact"><div class="label">To estimate</div><div class="value">${bt.missing}</div></div>
+      <div class="fact"><div class="label">Travellers (what-if)</div><div class="value stepper"><button type="button" data-action="n" data-trip="${esc(t.id)}" data-d="-1" aria-label="Fewer">−</button><span>${n}</span><button type="button" data-action="n" data-trip="${esc(t.id)}" data-d="1" aria-label="More">+</button></div></div>
+    </div>
+    <div class="card table-wrap"><table><thead><tr><th></th><th>Item</th><th>Status</th><th class="num">Per person</th><th class="num">Group</th></tr></thead><tbody>${rows}</tbody></table></div>
+    ${t.rates ? `<p class="muted small">Rates ${esc(t.rates.date)}: ${esc(t.rates.source || "")}</p>` : ""}`;
+}
+
+function tabTodo(t) {
+  const st = todoStats(t);
+  return `<div class="fact" style="margin-bottom:14px"><div class="label">Progress</div><div class="value">${st.done} of ${st.total}</div><div class="meter"><span style="width:${st.total ? (100 * st.done) / st.total : 0}%"></span></div></div>
+    <div class="grid grid-2">${(t.todos || []).map((g, gi) => {
+      const items = g.items.filter((i) => optionOn(t, i));
+      return `<details class="card todo-group" open><summary>${esc(g.group)} <span class="muted small">${items.filter((i) => i.done).length}/${items.length}</span></summary>
+        ${items.map((i) => `<div class="todo ${i.done ? "done" : ""}"><span class="check"><input type="checkbox" id="td-${esc(i.id)}" ${i.done ? "checked" : ""} data-action="todo" data-trip="${esc(t.id)}" data-id="${esc(i.id)}"></span><label for="td-${esc(i.id)}">${esc(i.text)} ${i.option ? `<span class="opt-tag">option</span>` : ""}</label>${i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener" aria-label="Open site">↗</a>` : ""}</div>`).join("")}
+        <form class="add-row" data-action="todo-add" data-trip="${esc(t.id)}" data-g="${gi}"><input type="text" name="text" placeholder="Add item…" aria-label="Add to-do"><button class="btn" type="submit">Add</button></form></details>`;
+    }).join("")}</div>`;
+}
+
+const docHref = (t, f) => `${S.static ? "" : "/"}${[t._folder, ...f.split("/")].map(encodeURIComponent).join("/")}`;
+function tabDocs(t) {
+  return `<div class="card"><ul class="list">${(t.documents || []).map((d) => {
+    const b = d.bookingId ? (t.bookings || []).find((x) => x.id === d.bookingId) : null;
+    return `<li><a href="${docHref(t, d.file)}" target="_blank">📄 ${esc(d.title)}</a><div class="muted small">${esc(d.file)}${b ? ` · ${esc(b.title)}` : ""}</div></li>`;
+  }).join("") || `<li class="empty">No documents</li>`}</ul></div>
+  <p class="muted small" ${S.static ? "hidden" : ""}>Files live in <code>${esc(t._folder)}/</code>. Drop new PDFs or screenshots in <code>Documenti_originali/</code> and ask the trip agent to import them.</p>`;
+}
+
+// ---------- map ----------
+function decodePolyline(str) {
+  let i = 0, lat = 0, lng = 0; const out = [];
+  while (i < str.length) {
+    for (const k of [0, 1]) {
+      let shift = 0, result = 0, b;
+      do { b = str.charCodeAt(i++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+      const d = result & 1 ? ~(result >> 1) : result >> 1;
+      if (k === 0) lat += d; else lng += d;
+    }
+    out.push([lat / 1e5, lng / 1e5]);
+  }
+  return out;
+}
+async function geometry(t) {
+  if (t._geometry) return t._geometry;
+  if (!t.geometryFile) return {};
+  if (!S.geo[t.id]) {
+    try { S.geo[t.id] = (await (await fetch(`/${encodeURIComponent(t._folder)}/${t.geometryFile}`)).json()).legs || {}; }
+    catch (e) { S.geo[t.id] = {}; }
+  }
+  return S.geo[t.id];
+}
+async function drawMap(t) {
+  const el = $("#leafmap");
+  if (!el) return;
+  if (!window.L) { el.innerHTML = `<p class="pad muted">Map unavailable offline.</p>`; return; }
+  const geo = await geometry(t);
+  if (!document.body.contains(el)) return;
+  const map = (S.map = L.map(el, { scrollWheelZoom: false }));
+  // Hosted snapshots can't load map tiles, so they draw routes and labelled stops on a plain background.
+  if (!S.sandboxed) L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "© OpenStreetMap" }).addTo(map);
+  const labelAll = (t.places || []).length < 6;
+  const P = Object.fromEntries((t.places || []).filter((p) => optionOn(t, p)).map((p) => [p.id, p]));
+  const accent = t.accent || "#2f5d62";
+  const byDate = {}, main = [], all = [];
+  for (const r of (t.routes || []).filter((r) => optionOn(t, r) && P[r.from] && P[r.to])) {
+    const pts = r.osrm && geo[r.osrm] ? decodePolyline(geo[r.osrm].p) : [[P[r.from].lat, P[r.from].lng], [P[r.to].lat, P[r.to].lng]];
+    const style = { flight: { dashArray: "6 8", weight: 2, opacity: 0.7 }, train: { dashArray: "2 6", weight: 3 }, car: { weight: 4 } }[r.mode] || { weight: 3, opacity: 0.8 };
+    const line = L.polyline(pts, { color: r.option ? "#2e7d4f" : accent, ...style }).addTo(map)
+      .bindTooltip(`${fmtDate(r.date)} · ${r.label || ""}${r.km ? ` · ${r.km} km` : ""}`);
+    line.on("click", () => map.fitBounds(line.getBounds(), { padding: [30, 30] }));
+    (byDate[r.date] = byDate[r.date] || []).push(...pts);
+    all.push(...pts); if (r.mode !== "flight") main.push(...pts);
+  }
+  for (const p of Object.values(P)) {
+    L.circleMarker([p.lat, p.lng], { radius: p.kind === "airport" ? 4 : 7, color: "#fff", weight: 2, fillColor: p.option ? "#2e7d4f" : accent, fillOpacity: 1 })
+      .addTo(map).bindTooltip(p.name, { permanent: S.sandboxed && (labelAll || p.kind !== "airport"), direction: "right", offset: [6, 0] });
+    all.push([p.lat, p.lng]); if (p.kind !== "airport") main.push([p.lat, p.lng]);
+  }
+  const fit = (pts, maxZoom = 12) => pts.length && map.fitBounds(L.latLngBounds(pts), { padding: [30, 30], maxZoom });
+  S.fitMap = (scope, date) => {
+    if (scope === "day") {
+      const stay = stayOn(t, date), pts = [...(byDate[date] || [])];
+      if (stay && P[stay.placeId]) pts.push([P[stay.placeId].lat, P[stay.placeId].lng]);
+      return fit(pts.length ? pts : main);
+    }
+    fit(scope === "all" ? all : main.length ? main : all, scope === "all" ? 6 : 12);
+  };
+  S.fitMap("main");
+}
+
+// ---------- events ----------
+function findTodo(t, id) { for (const g of t.todos || []) for (const i of g.items) if (i.id === id) return i; }
+const uid = (p) => `${p}-${Date.now().toString(36)}`;
+
+view.addEventListener("change", (e) => {
+  const el = e.target, a = el.dataset.action, tid = el.dataset.trip, id = el.dataset.id;
+  if (!a || !tid) return;
+  if (a === "dl-done") mutate(tid, (t) => { const d = t.deadlines.find((x) => x.id === id); d.status = el.checked ? "done" : "open"; });
+  else if (a === "dl-due") mutate(tid, (t) => {
+    const d = t.deadlines.find((x) => x.id === id), time = d.due && d.due.includes("T") && d.due.slice(0, 10) === el.value ? d.due.slice(10) : "";
+    d.due = el.value ? el.value + time : null;
+  });
+  else if (a === "bk-status") mutate(tid, (t) => { t.bookings.find((x) => x.id === id).status = el.value; });
+  else if (a === "bk-pay") mutate(tid, (t) => { const b = t.bookings.find((x) => x.id === id); b.payment = { ...(b.payment || {}), status: el.value }; });
+  else if (a === "choose") mutate(tid, (t) => {
+    const ch = el.dataset.choice;
+    const bookingId = el.dataset.booking || ((t.budget || []).find((b) => b.id === el.dataset.budget) || {}).bookingId;
+    const budgetId = el.dataset.budget || ((t.budget || []).find((b) => b.bookingId === bookingId && b.choice === ch) || {}).id;
+    for (const b of t.bookings || []) if (b.choice === ch) b.selected = b.id === bookingId;
+    for (const b of t.budget || []) if (b.choice === ch) b.selected = b.id === budgetId;
+  });
+  else if (a === "bud-incl") mutate(tid, (t) => { t.budget.find((x) => x.id === id).included = el.checked; });
+  else if (a === "opt-toggle") mutate(tid, (t) => { t.options.find((x) => x.id === id).enabled = el.checked; });
+  else if (a === "todo") mutate(tid, (t) => { findTodo(t, id).done = el.checked; });
+  else if (a === "q-toggle") mutate(tid, (t) => { t.openQuestions.find((x) => x.id === id).status = el.checked ? "resolved" : "open"; });
+});
+
+view.addEventListener("submit", (e) => {
+  const f = e.target, a = f.dataset.action, tid = f.dataset.trip;
+  if (!a) return;
+  e.preventDefault();
+  const data = new FormData(f), text = (data.get("text") || data.get("title") || "").trim();
+  if (!text) return;
+  if (a === "day-add") mutate(tid, (t) => { t.days.find((d) => d.date === f.dataset.date).items.push({ text }); });
+  else if (a === "todo-add") mutate(tid, (t) => { t.todos[+f.dataset.g].items.push({ id: uid("t"), text, done: false }); });
+  else if (a === "dl-add") mutate(tid, (t) => { (t.deadlines = t.deadlines || []).push({ id: uid("dl"), title: text, due: data.get("due") || null, hard: !!data.get("hard"), kind: "other", status: "open" }); }, "Deadline added");
+});
+
+view.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-action], .day");
+  if (!el) return;
+  const a = el.dataset.action;
+  if (a === "day-del") { e.stopPropagation(); mutate(el.dataset.trip, (t) => { t.days.find((d) => d.date === el.dataset.date).items.splice(+el.dataset.i, 1); }); }
+  else if (a === "n") { const t = S.byId[el.dataset.trip]; S.whatIf[t.id] = Math.max(1, travelers(t) + +el.dataset.d); render(); }
+  else if (a === "map-fit") S.fitMap && S.fitMap(el.dataset.scope);
+  else if (el.classList.contains("day") && !e.target.closest("form, button, a, input")) {
+    document.querySelectorAll(".day.active").forEach((d) => d.classList.remove("active"));
+    el.classList.add("active");
+    if (S.fitMap) { S.fitMap("day", el.dataset.day); if (innerWidth <= 860) $("#leafmap").scrollIntoView({ behavior: "smooth", block: "center" }); }
+  }
+});
+
+// ---------- router ----------
+const MUTATING = new Set(["dl-done", "dl-due", "bk-status", "bk-pay", "choose", "bud-incl", "opt-toggle", "todo", "q-toggle", "day-del"]);
+const currentRoute = () => S.route || location.hash || (S.trips.length === 1 ? `#/trip/${S.trips[0].id}` : "#/");
+
+function render() {
+  if (S.map) { S.map.remove(); S.map = null; S.fitMap = null; }
+  const route = currentRoute();
+  const [, page, id, tab] = route.split("/");
+  const scrollY = window.scrollY;
+  if (page === "trip" && S.byId[id]) renderTrip(S.byId[id], tab || "overview");
+  else renderHome();
+  if (S.static) view.querySelectorAll("[data-action]").forEach((el) => { if (MUTATING.has(el.dataset.action)) el.disabled = true; });
+  if (render.lastRoute === route) window.scrollTo(0, scrollY);
+  else window.scrollTo(0, 0);
+  render.lastRoute = route;
+}
+window.addEventListener("hashchange", () => { S.route = null; render(); });
+// Hosted snapshots can't use #/path URLs, so in-page links switch views in memory.
+document.addEventListener("click", (e) => {
+  const a = S.sandboxed && e.target.closest('a[href^="#/"]');
+  if (!a) return;
+  e.preventDefault();
+  S.route = a.getAttribute("href");
+  render();
+});
+
+// Pick up edits made by the agent (or by hand) to trip.json files.
+async function poll() {
+  if (document.hidden || S.saving) return;
+  const a = document.activeElement;
+  if (a && a.tagName === "INPUT" && a.type === "text" && a.value) return;
+  try {
+    const r = await fetch("/api/trips", { cache: "no-store" });
+    const list = await r.json();
+    const changed = list.length !== S.trips.length || list.some((t) => (S.byId[t.id] || {})._etag !== t._etag);
+    if (changed) { setTrips(list); S.geo = {}; render(); toast("Updated from disk"); }
+    $("#sync").textContent = "Synced " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) { $("#sync").textContent = "Offline"; }
+}
+
+$("#theme-btn").addEventListener("click", () => {
+  const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("trips-theme", document.documentElement.dataset.theme); } catch (e) {}
+});
+$("#today").textContent = fmtDate(todayISO(), { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+
+if (S.static) {
+  document.documentElement.classList.add("static");
+  setTrips(window.TRIPS_DATA);
+  const meta = window.TRIPS_META || {};
+  $("#sync").textContent = `View only · updated ${meta.published ? fmtDate(meta.published, { day: "numeric", month: "short" }) : ""}`;
+  render();
+} else {
+  loadAll().then(render).catch((e) => {
+    view.innerHTML = `<div class="card pad"><h2>Can't load trips</h2><p>${esc(e.message)}</p><p class="muted">Start the server: <code>python3 framework/server.py</code> and open <code>http://127.0.0.1:8765/app/</code>.</p></div>`;
+  });
+  setInterval(poll, 15000);
+  document.addEventListener("visibilitychange", poll);
+}
+
+</script>
+</body>
+</html>
